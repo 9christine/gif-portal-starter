@@ -1,14 +1,26 @@
 const anchor = require('@project-serum/anchor');
 
-describe('octproject', () => {
+const main = async() => {
+  console.log("🚀 Starting test...")
 
-  // Configure the client to use the local cluster.
-  anchor.setProvider(anchor.Provider.env());
+  anchor.setProvider(anchor.Provider.env()); // solana config get
+  const program = anchor.workspace.Octproject; // compile code in lib.rs, deploy locally on validator
+  const tx = await program.rpc.startStuffOff(); // call and await program.rpc.startStuffOff(), wait for local validator to "mine" instruction
 
-  it('Is initialized!', async () => {
-    // Add your test here.
-    const program = anchor.workspace.Octproject;
-    const tx = await program.rpc.initialize();
-    console.log("Your transaction signature", tx);
-  });
-});
+  // anchor.workspace.Octproject = look at programs/octproject/src/lib.rs 
+
+
+  console.log("📝 Your transaction signature", tx);
+}
+
+const runMain = async () => {
+  try {
+    await main();
+    process.exit(0);
+  } catch (error) {
+    console.error(error);
+    process.exit(1);
+  }
+};
+
+runMain();
