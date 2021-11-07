@@ -6,9 +6,32 @@ declare_id!("Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS"); // id w/ program ru
 pub mod octproject {
     use super::*;
     pub fn start_stuff_off(ctx: Context<StartStuffOff>) -> ProgramResult {
+        // Get a reference to the account.
+        let base_account = &mut ctx.accounts.base_account; //&mut = mutable reference to base_account
+
+        // Initialize total_gifs.
+        base_account.total_gifs = 0;
         Ok(())
     }
 }
 
 #[derive(Accounts)]
-pub struct StartStuffOff {}
+pub struct StartStuffOff<'info> {
+    #[account(init, payer = user, space = 9000)] // initialize BaseAccount
+    pub base_account: Account<'info, BaseAccount>,
+    #[account(mut)]
+    pub user: Signer<'info>,
+    pub system_program: Program<'info, System>,
+}
+
+/*
+1 init will tell Solana to create a new account owned by our current program.
+2 payer = user tells our program who's paying for the account to be created. In this case, it's the user calling the function.
+3 We then say space = 9000 which will allocate 9000 bytes of space for our account. You can change this # if you wanted, but, 9000 bytes is enough for the program we'll be building here!
+*/
+
+//Tells program what kind of account it can make and what it can hold. BaseAccount holds one integer named total_gifs.
+#[account]
+pub struct BaseAccount {
+    pub total_gifs: u64,
+}
