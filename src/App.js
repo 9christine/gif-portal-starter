@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import twitterLogo from './assets/twitter-logo.svg';
 import './App.css';
 
@@ -22,6 +22,8 @@ const TEST_GIFS = [
 const App = () => {
   // State
   const [walletAddress, setWalletAddress] = useState(null);
+  const [inputValue, setInputValue] = useState('');
+
 
   // Actions
   const checkIfWalletIsConnected = async () => {
@@ -52,12 +54,25 @@ const App = () => {
 
   const connectWallet = async () => {
     const { solana } = window;
-  
+
     if (solana) {
       const response = await solana.connect();
       console.log('Connected with Public Key:', response.publicKey.toString());
       setWalletAddress(response.publicKey.toString());
     }
+  };
+
+  const sendGif = async () => {
+    if (inputValue.length > 0) {
+      console.log('Gif link:', inputValue);
+    } else {
+      console.log('Empty input. Try again.');
+    }
+  };
+
+  const onInputChange = (event) => {
+    const { value } = event.target;
+    setInputValue(value);
   };
 
   const renderNotConnectedContainer = () => (
@@ -71,6 +86,10 @@ const App = () => {
 
   const renderConnectedContainer = () => (
     <div className="connected-container">
+      <input type="text" placeholder="Enter gif link!" value={inputValue}
+        onChange={onInputChange} />
+      <button className="cta-button submit-gif-button" onClick={sendGif}>Submit</button>
+      <hr className="tomato-line" />
       <div className="gif-grid">
         {TEST_GIFS.map(gif => (
           <div className="gif-item" key={gif}>
@@ -81,7 +100,6 @@ const App = () => {
     </div>
   );
 
-  // UseEffects
   useEffect(() => {
     window.addEventListener('load', async (event) => {
       await checkIfWalletIsConnected();
@@ -90,14 +108,13 @@ const App = () => {
 
   return (
     <div className="App">
-			{/* This was solely added for some styling fanciness */}
-			<div className={walletAddress ? 'authed-container' : 'container'}>
+      {/* This was solely added for some styling fanciness */}
+      <div className={walletAddress ? 'authed-container' : 'container'}>
         <div className="header-container">
           <div className="header">A Wall of Octopuses</div>
           <div className="sub-text">
             So many brains. So many arms.
           </div>
-          <hr className="top" />
           {!walletAddress && renderNotConnectedContainer()}
           {walletAddress && renderConnectedContainer()}
         </div>

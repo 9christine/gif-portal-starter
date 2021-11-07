@@ -36,10 +36,9 @@
   margin-top: -20px;
 }
 
-hr.top {
+hr.tomato-line {
   border: 3px solid tomato;
-  margin-top: 10px;
-  margin-bottom: 50px;
+  margin-bottom: 25px;
 }
 
 .gradient-text {
@@ -69,10 +68,9 @@ hr.top {
 }
 
 .submit-gif-button {
-  background: -webkit-linear-gradient(left, #4e44ce, #35aee2);
-  background-size: 200% 200%;
-  animation: gradient-animation 4s ease infinite;
-  margin-left: 10px;
+  background: rgb(5, 135, 161) 3%;
+  border: 1px solid whitesmoke;
+  margin-left: 20px;
 }
 
 .footer-container {
@@ -124,15 +122,15 @@ hr.top {
 
 .connected-container input[type="text"] {
   display: inline-block;
-  color: white;
+  color: whitesmoke;
   padding: 10px;
-  width: 50%;
+  width: 33%;
   height: 60px;
-  font-size: 16px;
+  font-size: 20px;
   box-sizing: border-box;
   background-color: rgba(0, 0, 0, 0.25);
   border: none;
-  border-radius: 10px;
+  border-radius: 20px;
   margin: 50px auto;
 }
 
