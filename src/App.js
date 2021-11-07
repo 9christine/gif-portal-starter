@@ -6,6 +6,12 @@ import './App.css';
 const TWITTER_HANDLE = '_buildspace';
 const TWITTER_LINK = `https://twitter.com/${TWITTER_HANDLE}`;
 
+const TEST_GIFS = [
+  'https://media.giphy.com/media/RfdknH1TGh7j6zXzR8/giphy.gif',
+  'https://media.giphy.com/media/VG2AZJD5rseaEeX2t6/giphy.gif',
+  'https://media.giphy.com/media/QsbdmCbBPiMZ2yIiSZ/giphy.gif'
+]
+
 const App = () => {
   // State
   const [walletAddress, setWalletAddress] = useState(null);
@@ -56,6 +62,18 @@ const App = () => {
     </button>
   );
 
+  const renderConnectedContainer = () => (
+    <div className="connected-container">
+      <div className="gif-grid">
+        {TEST_GIFS.map(gif => (
+          <div className="gif-item" key={gif}>
+            <img src={gif} alt={gif} />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+
   // UseEffects
   useEffect(() => {
     window.addEventListener('load', async (event) => {
@@ -68,12 +86,13 @@ const App = () => {
 			{/* This was solely added for some styling fanciness */}
 			<div className={walletAddress ? 'authed-container' : 'container'}>
         <div className="header-container">
-          <p className="header">Solana GIF Portal</p>
+          <p className="header">A Wall of Octopuses</p>
           <p className="sub-text">
-            View your GIF collection in the metaverse
+            So many brains. So many arms.
           </p>
           {/* Add the condition to show this only if we don't have a wallet address */}
           {!walletAddress && renderNotConnectedContainer()}
+          {walletAddress && renderConnectedContainer()}
         </div>
         <div className="footer-container">
           <img alt="Twitter Logo" className="twitter-logo" src={twitterLogo} />
