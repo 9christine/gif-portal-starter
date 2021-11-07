@@ -9,7 +9,14 @@ const TWITTER_LINK = `https://twitter.com/${TWITTER_HANDLE}`;
 const TEST_GIFS = [
   'https://media.giphy.com/media/RfdknH1TGh7j6zXzR8/giphy.gif',
   'https://media.giphy.com/media/VG2AZJD5rseaEeX2t6/giphy.gif',
-  'https://media.giphy.com/media/QsbdmCbBPiMZ2yIiSZ/giphy.gif'
+  'https://media.giphy.com/media/QsbdmCbBPiMZ2yIiSZ/giphy.gif',
+  'https://media.giphy.com/media/wZ5kPbU0TXScE/giphy.gif',
+  'https://media.giphy.com/media/gLd4D8BDMMQR4Gm9E7/giphy.gif',
+  'https://media.giphy.com/media/0LNOkuw3tH9VOq7yAF/giphy.gif',
+  'https://media.giphy.com/media/1zgdzxUvJ54bUjmUdu/giphy-downsized.gif',
+  'https://media.giphy.com/media/PWhlBLhEdqX5u/giphy.gif',
+  'https://media.giphy.com/media/26n6XsLU5UQ63c7V6/giphy-downsized.gif'
+
 ]
 
 const App = () => {
@@ -86,11 +93,11 @@ const App = () => {
 			{/* This was solely added for some styling fanciness */}
 			<div className={walletAddress ? 'authed-container' : 'container'}>
         <div className="header-container">
-          <p className="header">A Wall of Octopuses</p>
-          <p className="sub-text">
+          <div className="header">A Wall of Octopuses</div>
+          <div className="sub-text">
             So many brains. So many arms.
-          </p>
-          {/* Add the condition to show this only if we don't have a wallet address */}
+          </div>
+          <hr className="top" />
           {!walletAddress && renderNotConnectedContainer()}
           {walletAddress && renderConnectedContainer()}
         </div>
