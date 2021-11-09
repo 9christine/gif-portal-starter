@@ -1,11 +1,11 @@
-[programs.localnet]
-octproject = "Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS"
+[programs.devnet]
+octproject = "A2myRDoA2PXrJUVmrCKFAUyimFDfVzkAZpXaQvkFncEz"
 
 [registry]
 url = "https://anchor.projectserum.com"
 
 [provider]
-cluster = "localnet"
+cluster = "devnet"
 wallet = "/Users/christinetaylor/.config/solana/id.json"
 
 [scripts]
