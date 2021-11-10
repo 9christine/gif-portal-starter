@@ -10,7 +10,7 @@ import kp from './keypair.json'
 
 
 // SystemProgram is a reference to the Solana runtime!
-const { SystemProgram, Keypair } = web3;
+const { SystemProgram } = web3;
 
 // Persistant, shared keypair
 const arr = Object.values(kp._keypair.secretKey)
@@ -31,18 +31,19 @@ const opts = {
 const TWITTER_HANDLE = '_buildspace';
 const TWITTER_LINK = `https://twitter.com/${TWITTER_HANDLE}`;
 
-const TEST_GIFS = [
-  'https://media.giphy.com/media/RfdknH1TGh7j6zXzR8/giphy.gif',
-  'https://media.giphy.com/media/VG2AZJD5rseaEeX2t6/giphy.gif',
-  'https://media.giphy.com/media/QsbdmCbBPiMZ2yIiSZ/giphy.gif',
-  'https://media.giphy.com/media/wZ5kPbU0TXScE/giphy.gif',
-  'https://media.giphy.com/media/gLd4D8BDMMQR4Gm9E7/giphy.gif',
-  'https://media.giphy.com/media/0LNOkuw3tH9VOq7yAF/giphy.gif',
-  'https://media.giphy.com/media/1zgdzxUvJ54bUjmUdu/giphy-downsized.gif',
-  'https://media.giphy.com/media/PWhlBLhEdqX5u/giphy.gif',
-  'https://media.giphy.com/media/26n6XsLU5UQ63c7V6/giphy-downsized.gif'
+// const TEST_GIFS = [
+//   'https://media.giphy.com/media/RfdknH1TGh7j6zXzR8/giphy.gif',
+//   'https://media.giphy.com/media/VG2AZJD5rseaEeX2t6/giphy.gif',
+//   'https://media.giphy.com/media/QsbdmCbBPiMZ2yIiSZ/giphy.gif',
+//   'https://media.giphy.com/media/wZ5kPbU0TXScE/giphy.gif',
+//   'https://media.giphy.com/media/gLd4D8BDMMQR4Gm9E7/giphy.gif',
+//   'https://media.giphy.com/media/0LNOkuw3tH9VOq7yAF/giphy.gif',
+//   'https://media.giphy.com/media/1zgdzxUvJ54bUjmUdu/giphy-downsized.gif',
+//   'https://media.giphy.com/media/PWhlBLhEdqX5u/giphy.gif',
+//   'https://media.giphy.com/media/26n6XsLU5UQ63c7V6/giphy-downsized.gif'
 
-]
+// ]
+
 
 const App = () => {
   // State
@@ -86,6 +87,20 @@ const App = () => {
       setWalletAddress(response.publicKey.toString());
     }
   };
+  const getGifList = async () => {
+    try {
+      const provider = getProvider();
+      const program = new Program(idl, programID, provider);
+      const account = await program.account.baseAccount.fetch(baseAccount.publicKey);
+
+      console.log("Got the account", account)
+      setGifList(account.gifList)
+
+    } catch (error) {
+      console.log("Error in getGifList: ", error)
+      setGifList(null);
+    }
+  }
 
   const sendGif = async () => {
     if (inputValue.length === 0) {
@@ -96,7 +111,7 @@ const App = () => {
     try {
       const provider = getProvider();
       const program = new Program(idl, programID, provider);
-  
+
       await program.rpc.addGif(inputValue, {
         accounts: {
           baseAccount: baseAccount.publicKey,
@@ -104,7 +119,7 @@ const App = () => {
         },
       });
       console.log("GIF sucesfully sent to program", inputValue)
-  
+
       await getGifList();
     } catch (error) {
       console.log("Error sending GIF:", error)
@@ -183,7 +198,7 @@ const App = () => {
             {/* We use index as the key instead, also, the src is now item.gifLink */}
             {gifList.map((item, index) => (
               <div className="gif-item" key={index}>
-                <img src={item.gifLink} />
+                <img src={item.gifLink} alt="Octopus" />
               </div>
             ))}
           </div>
@@ -198,27 +213,15 @@ const App = () => {
     });
   }, []);
 
-  const getGifList = async () => {
-    try {
-      const provider = getProvider();
-      const program = new Program(idl, programID, provider);
-      const account = await program.account.baseAccount.fetch(baseAccount.publicKey);
-
-      console.log("Got the account", account)
-      setGifList(account.gifList)
-
-    } catch (error) {
-      console.log("Error in getGifs: ", error)
-      setGifList(null);
-    }
-  }
 
   useEffect(() => {
     if (walletAddress) {
       console.log('Fetching GIF list...');
-      getGifList()
+      getGifList();
     }
-  }, [walletAddress]);
+    // Add this line to ignore the warning
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [walletAddress]); 
 
   return (
     <div className="App">
