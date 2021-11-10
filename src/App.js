@@ -198,7 +198,7 @@ const App = () => {
             {/* We use index as the key instead, also, the src is now item.gifLink */}
             {gifList.map((item, index) => (
               <div className="gif-item" key={index}>
-                <img src={item.gifLink} alt="Octopus" />
+                <img src={item.gifLink} alt={item.userAddress.toString()} />
               </div>
             ))}
           </div>
@@ -221,7 +221,7 @@ const App = () => {
     }
     // Add this line to ignore the warning
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [walletAddress]); 
+  }, [walletAddress]);
 
   return (
     <div className="App">
